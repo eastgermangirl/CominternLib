@@ -45,6 +45,9 @@ body.dark-theme .featured-banner {
 body.homepage {
   overflow: hidden;
 }
+html.m2m-has-top-nav body.homepage {
+  padding-top: 0;
+}
 .homepage-viewport {
   display: flex;
   flex-direction: column;
@@ -62,10 +65,9 @@ body.homepage {
   overflow: hidden;
 }
 .homepage-banner,
-.homepage-foot {
-  flex: 0 0 auto;
-  width: 100%;
-  text-align: center;
+.homepage-foot,
+.homepage-main {
+  margin: 0;
 }
 .homepage-foot {
   font-size: clamp(0.65rem, 1.4vw, 0.82rem);
@@ -76,6 +78,12 @@ body.homepage {
 }
 .homepage-foot .homepage-cookbook {
   margin: 0 0 clamp(4px, 0.8vh, 8px);
+}
+.homepage-banner,
+.homepage-foot {
+  flex: 0 0 auto;
+  width: 100%;
+  text-align: center;
 }
 .homepage-main {
   flex: 1 1 auto;
@@ -165,7 +173,7 @@ body.homepage {
     min-height: 100svh;
     overflow: visible;
     justify-content: flex-start;
-    gap: 16px;
+    gap: 8px;
     padding-bottom: 96px;
   }
   .homepage-main {
@@ -175,20 +183,36 @@ body.homepage {
     align-items: stretch;
   }
   .homepage-orbit-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
     width: 100%;
     max-width: 460px;
     margin: 0 auto;
   }
   .homepage-orbit {
-    width: auto;
-    height: auto;
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: auto !important;
+    min-height: 0;
+    margin: 0;
     overflow: visible;
   }
   .homepage-orbit__center {
-    position: static;
-    transform: none;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
     pointer-events: auto;
-    margin: 0 auto 16px;
+    z-index: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0;
   }
   .homepage-orbit__logo.main-image-frame {
     width: min(340px, 88vw) !important;
@@ -209,7 +233,12 @@ body.homepage {
   }
   .homepage-libraries-list {
     display: block;
+    position: relative;
     width: 100%;
+    margin: 0;
+  }
+  .homepage-libraries-list .collections-title {
+    margin: 0 0 8px;
   }
   .homepage-libraries-list .collections-wrapper {
     flex-direction: column;
