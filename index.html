@@ -152,6 +152,79 @@ body.homepage {
   text-align: center;
   white-space: normal;
 }
+.homepage-libraries-list {
+  display: none;
+}
+@media (max-width: 768px) {
+  body.homepage {
+    overflow: auto;
+  }
+  .homepage-viewport {
+    height: auto;
+    min-height: 100dvh;
+    min-height: 100svh;
+    overflow: visible;
+    justify-content: flex-start;
+    gap: 16px;
+    padding-bottom: 96px;
+  }
+  .homepage-main {
+    flex: 0 0 auto;
+    container-type: normal;
+    overflow: visible;
+    align-items: stretch;
+  }
+  .homepage-orbit-section {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .homepage-orbit {
+    width: auto;
+    height: auto;
+    overflow: visible;
+  }
+  .homepage-orbit__center {
+    position: static;
+    transform: none;
+    pointer-events: auto;
+    margin: 0 auto 16px;
+  }
+  .homepage-orbit__logo.main-image-frame {
+    width: min(340px, 88vw);
+    height: calc(min(340px, 88vw) * 256 / 425);
+  }
+  .homepage-orbit__ring {
+    display: none;
+  }
+  .homepage-libraries-list {
+    display: block;
+    width: 100%;
+  }
+  .homepage-libraries-list .collections-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .homepage-libraries-list .collections-box {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 16px 20px;
+  }
+  .homepage-libraries-list .collections-box ul {
+    margin: 0;
+    padding-left: 0;
+    list-style-position: inside;
+  }
+  .homepage-libraries-list .collections-box a {
+    display: block;
+    margin: 8px 0;
+    font-size: 1rem;
+    max-width: none;
+    padding: 8px 16px !important;
+    white-space: normal;
+  }
+}
 </style>
 <title>The Comintern Library</title>
 </head>
@@ -198,6 +271,29 @@ body.homepage {
 <span class="homepage-orbit__slot" style="--orbit-angle: 270deg"><a href="Honecker/Index.html">Honecker</a></span>
 <span class="homepage-orbit__slot" style="--orbit-angle: 315deg"><a href="Che/Index.html">Guevara</a></span>
 </nav>
+</div>
+<div class="homepage-libraries-list" aria-label="Library collections">
+<div class="collections-title">Libraries</div>
+<div class="collections-wrapper">
+<div class="collections-box">
+<div class="collections-box-label">Main Figures</div>
+<ul>
+<li><a href="M&amp;E/Index.html">Marx &amp; Engels</a></li>
+<li><a href="Lenin/Index.html">Lenin</a></li>
+<li><a href="Stalin/Index.html">Stalin</a></li>
+</ul>
+</div>
+<div class="collections-box">
+<div class="collections-box-label">Other Theory</div>
+<ul>
+<li><a href="Luxemburg/Index.html">Luxemburg</a></li>
+<li><a href="Kollontai/Index.html">Kollontai</a></li>
+<li><a href="HoChiMinh/Index.html">Ho Chi Minh</a></li>
+<li><a href="Honecker/Index.html">Honecker</a></li>
+<li><a href="Che/Index.html">Guevara</a></li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 </main>
