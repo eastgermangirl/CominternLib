@@ -191,8 +191,18 @@ body.homepage {
     margin: 0 auto 16px;
   }
   .homepage-orbit__logo.main-image-frame {
-    width: min(340px, 88vw);
-    height: calc(min(340px, 88vw) * 256 / 425);
+    width: min(340px, 88vw) !important;
+    max-width: 88vw !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 425 / 256;
+    overflow: visible;
+  }
+  body.homepage .homepage-orbit__logo .main-image {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    object-fit: contain;
   }
   .homepage-orbit__ring {
     display: none;
