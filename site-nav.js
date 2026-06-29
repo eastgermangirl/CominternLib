@@ -119,26 +119,65 @@
 
     window.M2M_setupTopNavAutoHide = setupTopNavAutoHide;
 
+    function getSiteRootPath() {
+        var host = location.hostname;
+        if (host.slice(-10) === 'github.io') {
+            var parts = location.pathname.split('/').filter(Boolean);
+            if (parts.length && !/\.(html?|htm)$/i.test(parts[0])) {
+                return '/' + parts[0];
+            }
+        }
+        return '';
+    }
+
+    function stripSiteRootSegments(segs) {
+        var root = getSiteRootPath();
+        if (!root) {
+            return segs;
+        }
+        var rootParts = root.split('/').filter(Boolean);
+        if (
+            segs.length >= rootParts.length &&
+            segs.slice(0, rootParts.length).join('/') === rootParts.join('/')
+        ) {
+            return segs.slice(rootParts.length);
+        }
+        return segs;
+    }
+
+    function normalizePagePathname(pathname) {
+        var root = getSiteRootPath();
+        var path = pathname || '/';
+        if (path === '/' || path === root || path === root + '/') {
+            return root + '/index.html';
+        }
+        if (!/\.(html?|htm)$/i.test(path) && /\/Index$/i.test(path.replace(/\/+$/, ''))) {
+            return path.replace(/\/+$/, '') + '.html';
+        }
+        return path;
+    }
+
+    function resolveFetchUrl(url) {
+        var resolved = new URL(url, location.href);
+        resolved.pathname = normalizePagePathname(resolved.pathname);
+        return resolved;
+    }
+
     function m2mCollectionIndexHref() {
-        var segs = location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+        var segs = stripSiteRootSegments(
+            location.pathname.replace(/\/+$/, '').split('/').filter(Boolean)
+        );
         if (!segs.length) {
-            return '/Index';
+            return 'index.html';
         }
         var last = segs[segs.length - 1];
         if (/\.(html?|htm)$/i.test(last) || last === 'Index') {
             segs.pop();
         }
         if (!segs.length) {
-            return '/Index';
+            return 'index.html';
         }
-        var enc = segs.map(function (s) {
-            try {
-                return encodeURIComponent(decodeURIComponent(s));
-            } catch (e) {
-                return encodeURIComponent(s);
-            }
-        });
-        return '/' + enc.join('/') + '/Index';
+        return 'Index.html';
     }
 
     var TOP_NAV_CHROME_HTML =
@@ -333,7 +372,8 @@
             rememberScroll();
         }
         navInFlight = true;
-        fetch(resolved.href, { credentials: 'same-origin', headers: { Accept: 'text/html' } })
+        var fetchUrl = resolveFetchUrl(resolved.href);
+        fetch(fetchUrl.href, { credentials: 'same-origin', headers: { Accept: 'text/html' } })
             .then(function (res) {
                 if (!res.ok) {
                     throw new Error('HTTP ' + res.status);
@@ -343,13 +383,13 @@
             .then(function (html) {
                 var doc = new DOMParser().parseFromString(html, 'text/html');
                 var scrollTarget = options.popstate ? scrollByUrl[resolved.href] || 0 : 0;
-                applyFetchedPage(doc, resolved.href, scrollTarget);
+                applyFetchedPage(doc, fetchUrl.href, scrollTarget);
                 if (!options.popstate) {
-                    history.pushState({ m2m: true }, '', resolved.href);
+                    history.pushState({ m2m: true }, '', fetchUrl.href);
                 }
             })
             .catch(function () {
-                location.href = resolved.href;
+                location.href = fetchUrl.href;
             })
             .finally(function () {
                 navInFlight = false;
@@ -401,7 +441,8 @@
             if (url.pathname === location.pathname && url.search === location.search && url.hash) {
                 return false;
             }
-            return /\.(html?|htm)$/i.test(url.pathname) || /\/Index$/i.test(url.pathname) || url.pathname === '/' || /\/Index\.html$/i.test(url.pathname);
+            var path = normalizePagePathname(url.pathname);
+            return /\.(html?|htm)$/i.test(path) || path === getSiteRootPath() + '/index.html';
         } catch (err) {
             return false;
         }
