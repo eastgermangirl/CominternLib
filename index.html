@@ -9,10 +9,10 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 12px 16px;
-  padding: 14px 24px;
-  margin: 0 auto 20px;
-  max-width: 600px;
+  gap: clamp(6px, 1.2vw, 12px) clamp(8px, 1.6vw, 16px);
+  padding: clamp(8px, 1.6vw, 14px) clamp(12px, 2.4vw, 24px);
+  margin: 0;
+  max-width: min(600px, 96vw);
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
   border: 1px solid rgba(102, 126, 234, 0.35);
   border-radius: 12px;
@@ -24,7 +24,7 @@ body.dark-theme .featured-banner {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 .featured-label {
-  font-size: 0.8rem;
+  font-size: clamp(0.68rem, 1.6vw, 0.8rem);
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -32,25 +32,130 @@ body.dark-theme .featured-banner {
   opacity: 0.9;
 }
 .featured-button {
-  padding: 10px 20px !important;
+  padding: clamp(6px, 1.2vw, 10px) clamp(12px, 2vw, 20px) !important;
   font-weight: 600 !important;
+  font-size: clamp(0.78rem, 1.8vw, 1rem) !important;
 }
 .featured-byline {
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 1.6vw, 0.9rem);
   font-style: italic;
   color: var(--text-color);
   opacity: 0.85;
 }
-.homepage-logo-section {
-  display: block;
-  width: 425px;
+body.homepage {
+  overflow: hidden;
+}
+.homepage-viewport {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(4px, 1vh, 12px);
+  box-sizing: border-box;
+  width: 100%;
+  height: 100dvh;
+  height: 100svh;
+  padding-top: var(--m2m-top-nav-pad, 52px);
+  padding-bottom: clamp(72px, 10vh, 96px);
+  padding-left: 8px;
+  padding-right: 8px;
+  overflow: hidden;
+}
+.homepage-banner,
+.homepage-foot {
+  flex: 0 0 auto;
+  width: 100%;
+  text-align: center;
+}
+.homepage-foot {
+  font-size: clamp(0.65rem, 1.4vw, 0.82rem);
+  line-height: 1.35;
+}
+.homepage-foot p {
+  margin: 0;
+}
+.homepage-foot .homepage-cookbook {
+  margin: 0 0 clamp(4px, 0.8vh, 8px);
+}
+.homepage-main {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  container-type: size;
+  container-name: orbit-area;
+}
+.homepage-orbit-section {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.homepage-orbit {
+  --orbit-design: 832;
+  --orbit-label-scale: 1.28;
+  --orbit-fit: min(96vw, calc(100svh - var(--m2m-top-nav-pad, 52px) - clamp(72px, 10vh, 96px) - 11rem));
+  --orbit-size: var(--orbit-fit);
+  --orbit-logo-width: calc(var(--orbit-size) * 650 / var(--orbit-design));
+  --orbit-logo-height: calc(var(--orbit-logo-width) * 256 / 425);
+  --orbit-radius: calc(var(--orbit-size) * 302 / var(--orbit-design));
+  position: relative;
+  width: var(--orbit-size);
+  height: var(--orbit-size);
   max-width: 100%;
   margin: 0 auto;
+  overflow: visible;
+}
+@supports (width: 1cqh) {
+  .homepage-orbit {
+    --orbit-fit: min(96cqw, 96cqh);
+  }
+}
+.homepage-orbit__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+}
+.homepage-orbit__logo.main-image-frame {
+  width: var(--orbit-logo-width);
+  height: var(--orbit-logo-height);
+  margin: 0;
+  pointer-events: auto;
+  min-height: 0;
+}
+.homepage-orbit__ring {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+}
+.homepage-orbit__slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%) rotate(var(--orbit-angle)) translateY(calc(-1 * var(--orbit-radius))) rotate(calc(-1 * var(--orbit-angle)));
+}
+.homepage-orbit__slot a {
+  display: inline-block;
+  width: max-content;
+  max-width: calc(var(--orbit-size) * 0.237 * var(--orbit-label-scale));
+  margin: 0 !important;
+  padding: calc(var(--orbit-size) * 0.0094 * var(--orbit-label-scale)) calc(var(--orbit-size) * 0.0188 * var(--orbit-label-scale)) !important;
+  font-size: calc(var(--orbit-size) * 0.022 * var(--orbit-label-scale));
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  white-space: normal;
 }
 </style>
 <title>The Comintern Library</title>
 </head>
-<body class="dark-theme">
+<body class="dark-theme homepage">
 <nav class="m2m-top-nav m2m-top-nav--theme-only" aria-label="Site">
 <div class="theme-toggle-container">
 <input class="theme-toggle-checkbox" id="theme-toggle" type="checkbox"/>
@@ -67,86 +172,52 @@ body.dark-theme .featured-banner {
 </label>
 </div>
 </nav>
-<center>
+<div class="homepage-viewport">
+<header class="homepage-banner">
 <div class="featured-banner">
 <span class="featured-label">New</span>
 <a class="featured-button" href="Cookbook/Index.html">The Communist's Cookbook</a>
 <span class="featured-byline">Do not attempt to create contents.</span>
 </div>
-</center>
-<center>
-
-
-<p>
-<div class="homepage-logo-section">
-<div class="main-image-frame">
-<img alt="" class="main-image" data-dark-src="darkthemelogo.png" data-light-src="lightthemelogo.png" height="256" id="mainImage" src="darkthemelogo.png" width="425"/>
+</header>
+<main class="homepage-main">
+<div class="homepage-orbit-section">
+<div class="homepage-orbit">
+<div class="homepage-orbit__center">
+<div class="main-image-frame homepage-orbit__logo">
+<img alt="" class="main-image" data-dark-src="darkthemelogo.png" data-light-src="lightthemelogo.png" height="391" id="mainImage" src="darkthemelogo.png" width="650"/>
 </div>
 </div>
-<p>
-<br/> <br/>
-<table border="0" cellpadding="8" cellspacing="0" class="index-award-table" width="425">
-<tr>
-<td style="vertical-align: middle; width: 160px;">
-</td>
-<td style="vertical-align: middle;">
-<center>
-<font size="-2">
-</font>
-</center>
-</td>
-</tr>
-</table>
-</p></p></p></b></p></center>
-<center>
-<div class="collections-title">Libraries</div>
-<div class="collections-wrapper">
-<div class="collections-box">
-<div class="collections-box-label">Main Figures</div>
-<ul>
-<li>
-<a href="M&amp;E/Index.html">Marx and Engels</a>
-<li>
-<a href="Lenin/Index.html">Lenin</a>
-<li>
-<a href="Stalin/Index.html">Stalin</a>
-</li></li></li></ul>
-</div>
-<div class="collections-box">
-<div class="collections-box-label">Other Theory</div>
-<ul>
-<li>
-<a href="Luxemburg/Index.html">Rosa Luxemburg</a>
-<li>
-<a href="Kollontai/Index.html">Alexandra Kollontai</a>
-<li>
-<a href="HoChiMinh/Index.html">Ho Chi Minh</a>
-<li>
-<a href="Honecker/Index.html">Erich Honecker</a>
-<li>
-<a href="Che/Index.html">Che Guevara</a>
-</li></li></li></li></li></ul>
+<nav class="homepage-orbit__ring" aria-label="Library collections">
+<span class="homepage-orbit__slot" style="--orbit-angle: 0deg"><a href="M&amp;E/Index.html">Marx &amp; Engels</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 45deg"><a href="Lenin/Index.html">Lenin</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 90deg"><a href="Stalin/Index.html">Stalin</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 135deg"><a href="Luxemburg/Index.html">Luxemburg</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 180deg"><a href="Kollontai/Index.html">Kollontai</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 225deg"><a href="HoChiMinh/Index.html">Ho Chi Minh</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 270deg"><a href="Honecker/Index.html">Honecker</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 315deg"><a href="Che/Index.html">Guevara</a></span>
+</nav>
 </div>
 </div>
-<p>
+</main>
+<footer class="homepage-foot">
+<p class="homepage-cookbook">
 <a href="Cookbook/Index.html">The Communist's Cookbook</a>
 </p>
-</center>
-<center>
 <p>
-<br/>
 <b>
 <font size="-1">
 Please report all bugs, non-functional links, etc., and direct all comments, suggestions, and criticisms to @eastgermangirl on instagram.<br/>
 </font>
 </b>
-</p></center>
-<p>
-<br/>
+</p>
+</footer>
+</div>
 <script src="music-player.js"></script>
 <script src="theme.js">
 </script>
 <script src="site-nav.js">
 </script>
-</p></body>
+</body>
 </html>
