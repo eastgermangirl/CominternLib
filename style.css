@@ -107,6 +107,39 @@ a[href*="fems.lol"]:hover {
   box-shadow: none;
   color: var(--link-hover) !important;
 }
+
+/* Homepage visitor counter: plain image link, not a button. */
+.visitor-counter a:not([href*="fems.lol"]),
+body.dark-theme .visitor-counter a:not([href*="fems.lol"]) {
+  display: block;
+  width: fit-content;
+  padding: 0;
+  margin: 0 auto;
+  background: none !important;
+  border-radius: 0;
+  box-shadow: none !important;
+  color: inherit !important;
+  font-weight: inherit;
+  line-height: 0;
+  transition: none;
+}
+.visitor-counter a:not([href*="fems.lol"]):hover,
+.visitor-counter a:not([href*="fems.lol"]):active,
+.visitor-counter a:not([href*="fems.lol"]):visited,
+body.dark-theme .visitor-counter a:not([href*="fems.lol"]):hover,
+body.dark-theme .visitor-counter a:not([href*="fems.lol"]):active,
+body.dark-theme .visitor-counter a:not([href*="fems.lol"]):visited {
+  transform: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  color: inherit !important;
+}
+.visitor-counter img.counterimg {
+  display: block;
+  margin: 0 auto;
+  border: 0;
+}
+
 .work-text .work-p {
   margin: 0.75rem 0;
 }
@@ -251,7 +284,7 @@ a[href*="fems.lol"]:hover {
 body.dark-theme table, body.dark-theme td {
   color: var(--text-color);
 }
-body.dark-theme img:not(.theme-icon):not(.main-image):not(.m2m-music-player__cover):not(.award-badge):not(.collection-index-photo) {
+body.dark-theme img:not(.theme-icon):not(.main-image):not(.m2m-music-player__cover):not(.award-badge):not(.collection-index-photo):not(.counterimg) {
   filter: brightness(0.95);
   transition: filter var(--theme-sync-duration) ease;
 }
