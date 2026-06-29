@@ -1,0 +1,28 @@
+@import url("works.css");
+  a:link {
+  color: #aa0000;
+  }
+a:visited {
+  color: #993333;
+  }
+div.border {
+  border: #880000;
+  }
+h1,
+h1.big,
+h1.medium,
+h2,
+h3,
+h4,
+h5,
+h6,
+p.information,
+p.pagenote,
+p.toc,
+span.info,
+span.term,
+sup.anote,
+sup.ednote,
+sup.enote {
+  color: #330000;
+  }
