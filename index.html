@@ -186,21 +186,24 @@ html.m2m-has-top-nav body.homepage {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 0;
     width: 100%;
     max-width: 460px;
     margin: 0 auto;
   }
   .homepage-orbit {
-    position: static;
+    --orbit-size: auto;
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 100% !important;
     height: auto !important;
     min-height: 0;
-    margin: 0;
+    margin: 0 0 28px;
     overflow: visible;
+    flex-shrink: 0;
   }
   .homepage-orbit__center {
     position: relative !important;
@@ -213,6 +216,7 @@ html.m2m-has-top-nav body.homepage {
     display: flex;
     justify-content: center;
     margin: 0;
+    flex-shrink: 0;
   }
   .homepage-orbit__logo.main-image-frame {
     width: min(340px, 88vw) !important;
@@ -234,8 +238,11 @@ html.m2m-has-top-nav body.homepage {
   .homepage-libraries-list {
     display: block;
     position: relative;
+    z-index: 2;
     width: 100%;
     margin: 0;
+    padding-top: 8px;
+    clear: both;
   }
   .homepage-libraries-list .collections-title {
     margin: 0 0 8px;
