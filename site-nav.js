@@ -120,14 +120,17 @@
     window.M2M_setupTopNavAutoHide = setupTopNavAutoHide;
 
     function getSiteRootPath() {
-        var host = location.hostname;
-        if (host.slice(-10) === 'github.io') {
-            var parts = location.pathname.split('/').filter(Boolean);
-            if (parts.length && !/\.(html?|htm)$/i.test(parts[0])) {
-                return '/' + parts[0];
-            }
+        if (typeof window.M2M_getSiteRootPath === 'function') {
+            return window.M2M_getSiteRootPath();
         }
         return '';
+    }
+
+    function ensureUnderSiteRoot(pathname, root) {
+        if (typeof window.M2M_ensureUnderSiteRoot === 'function') {
+            return window.M2M_ensureUnderSiteRoot(pathname, root);
+        }
+        return pathname || '/';
     }
 
     function stripSiteRootSegments(segs) {
@@ -147,7 +150,7 @@
 
     function normalizePagePathname(pathname) {
         var root = getSiteRootPath();
-        var path = pathname || '/';
+        var path = ensureUnderSiteRoot(pathname || '/', root);
         if (path === '/' || path === root || path === root + '/') {
             return root + '/index.html';
         }
@@ -238,22 +241,13 @@
                     el.setAttribute(attr, resolved.href);
                     return;
                 }
+                resolved.pathname = normalizePagePathname(resolved.pathname);
                 el.setAttribute(attr, resolved.href);
             } catch (err) {}
         }
         var links = root.getElementsByTagName('a');
         for (var a = 0; a < links.length; a++) {
-            var linkEl = links[a];
-            if (linkEl.classList) {
-                if (
-                    linkEl.classList.contains('home-button') ||
-                    linkEl.classList.contains('collection-recommended-btn') ||
-                    linkEl.classList.contains('featured-button')
-                ) {
-                    continue;
-                }
-            }
-            rewriteOne(linkEl, 'href');
+            rewriteOne(links[a], 'href');
         }
         var media = root.querySelectorAll('img[src], source[src], video[src], audio[src]');
         for (var m = 0; m < media.length; m++) {
@@ -279,7 +273,10 @@
     }
 
     function bootNavChrome() {
-        if (ensureFloatingChrome(location.href) && typeof window.M2M_afterNavigation === 'function') {
+        var canonicalUrl = resolveFetchUrl(location.href).href;
+        updateDirectoryBase(canonicalUrl);
+        rewriteRelativeResourceUrls(document.body, canonicalUrl);
+        if (ensureFloatingChrome(canonicalUrl) && typeof window.M2M_afterNavigation === 'function') {
             window.M2M_afterNavigation();
         } else {
             setupTopNavAutoHide();
@@ -333,13 +330,37 @@
         }
     }
 
+    function updateDirectoryBase(pageUrl) {
+        var head = document.head;
+        if (!head) {
+            return;
+        }
+        try {
+            var u = new URL(pageUrl, location.href);
+            u.pathname = normalizePagePathname(u.pathname);
+            var parts = u.pathname.split('/').filter(Boolean);
+            if (parts.length && /\.(html?|htm)$/i.test(parts[parts.length - 1])) {
+                parts.pop();
+            }
+            var dir = parts.length ? '/' + parts.join('/') + '/' : '/';
+            var baseEl = head.querySelector('base[href]');
+            if (!baseEl) {
+                baseEl = document.createElement('base');
+                head.insertBefore(baseEl, head.firstChild);
+            }
+            baseEl.href = u.origin + dir;
+        } catch (e) {}
+    }
+
     function applyFetchedPage(doc, pageUrl, scrollTop) {
         syncPageHead(doc);
         var newBody = doc.body.cloneNode(true);
         stripPersistentScripts(newBody);
         document.body.className = doc.body.className;
         document.body.innerHTML = newBody.innerHTML;
-        rewriteRelativeResourceUrls(document.body, pageUrl);
+        var canonicalUrl = resolveFetchUrl(pageUrl).href;
+        updateDirectoryBase(canonicalUrl);
+        rewriteRelativeResourceUrls(document.body, canonicalUrl);
         if (typeof window.M2M_afterNavigation === 'function') {
             window.M2M_afterNavigation();
         }
@@ -438,10 +459,11 @@
             if (url.origin !== location.origin) {
                 return false;
             }
+            url.pathname = normalizePagePathname(url.pathname);
             if (url.pathname === location.pathname && url.search === location.search && url.hash) {
                 return false;
             }
-            var path = normalizePagePathname(url.pathname);
+            var path = url.pathname;
             return /\.(html?|htm)$/i.test(path) || path === getSiteRootPath() + '/index.html';
         } catch (err) {
             return false;
@@ -456,7 +478,7 @@
                 return;
             }
             ev.preventDefault();
-            navigateTo(a.href);
+            navigateTo(resolveFetchUrl(a.href).href);
         });
         window.addEventListener('popstate', function () {
             navigateTo(location.href, { popstate: true });

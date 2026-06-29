@@ -29,6 +29,59 @@
         return u.origin + path + '/';
     }
 
+    function getSiteRootPath() {
+        var host = location.hostname;
+        if (host.slice(-10) !== 'github.io') {
+            return '';
+        }
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++) {
+            var src = scripts[i].getAttribute('src');
+            if (!src) {
+                continue;
+            }
+            if (src.indexOf('theme-early.js') === -1 && src.indexOf('site-nav.js') === -1) {
+                continue;
+            }
+            try {
+                var u = new URL(src, location.href);
+                if (u.origin !== location.origin) {
+                    continue;
+                }
+                var p = u.pathname;
+                if (!/\/theme-early\.js$/i.test(p) && !/\/site-nav\.js$/i.test(p)) {
+                    continue;
+                }
+                var slash = p.lastIndexOf('/');
+                if (slash >= 0) {
+                    return p.substring(0, slash);
+                }
+            } catch (e) {}
+        }
+        var parts = location.pathname.split('/').filter(Boolean);
+        if (parts.length && !/\.(html?|htm)$/i.test(parts[0])) {
+            return '/' + parts[0];
+        }
+        return '';
+    }
+
+    function ensureUnderSiteRoot(pathname, root) {
+        if (!root) {
+            return pathname || '/';
+        }
+        var path = pathname || '/';
+        if (path === root || path.indexOf(root + '/') === 0) {
+            return path;
+        }
+        if (path.charAt(0) === '/') {
+            return root + path;
+        }
+        return path;
+    }
+
+    window.M2M_getSiteRootPath = getSiteRootPath;
+    window.M2M_ensureUnderSiteRoot = ensureUnderSiteRoot;
+
     function ensureDirectoryBase() {
         var head = document.head;
         if (!head) {
