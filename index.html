@@ -13,15 +13,15 @@
   padding: clamp(8px, 1.6vw, 14px) clamp(12px, 2.4vw, 24px);
   margin: 0;
   max-width: min(600px, 96vw);
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.12) 0%, rgba(118, 75, 162, 0.12) 100%);
-  border: 1px solid rgba(102, 126, 234, 0.35);
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  background: var(--chrome-muted);
+  border: 1px solid var(--chrome-border);
+  border-radius: 4px;
+  box-shadow: none;
 }
 body.dark-theme .featured-banner {
-  background: linear-gradient(135deg, rgba(67, 67, 67, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%);
-  border-color: rgba(67, 67, 67, 0.5);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: var(--chrome-muted);
+  border-color: var(--chrome-border);
+  box-shadow: none;
 }
 .featured-label {
   font-size: clamp(0.68rem, 1.6vw, 0.8rem);
@@ -305,13 +305,14 @@ html.m2m-has-top-nav body.homepage {
 </div>
 <nav class="homepage-orbit__ring" aria-label="Library collections">
 <span class="homepage-orbit__slot" style="--orbit-angle: 0deg"><a href="M&amp;E/Index.html">Marx &amp; Engels</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 45deg"><a href="Lenin/Index.html">Lenin</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 90deg"><a href="Stalin/Index.html">Stalin</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 135deg"><a href="Luxemburg/Index.html">Luxemburg</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 180deg"><a href="Kollontai/Index.html">Kollontai</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 225deg"><a href="HoChiMinh/Index.html">Ho Chi Minh</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 270deg"><a href="Honecker/Index.html">Honecker</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 315deg"><a href="Che/Index.html">Guevara</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 40deg"><a href="Lenin/Index.html">Lenin</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 80deg"><a href="Stalin/Index.html">Stalin</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 120deg"><a href="Luxemburg/Index.html">Luxemburg</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 160deg"><a href="Kollontai/Index.html">Kollontai</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 200deg"><a href="HoChiMinh/Index.html">Ho Chi Minh</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 240deg"><a href="Honecker/Index.html">Honecker</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 280deg"><a href="Che/Index.html">Guevara</a></span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 320deg"><a href="Hoxha/Index.html">Hoxha</a></span>
 </nav>
 </div>
 <div class="homepage-libraries-list" aria-label="Library collections">
@@ -333,6 +334,7 @@ html.m2m-has-top-nav body.homepage {
 <li><a href="HoChiMinh/Index.html">Ho Chi Minh</a></li>
 <li><a href="Honecker/Index.html">Honecker</a></li>
 <li><a href="Che/Index.html">Guevara</a></li>
+<li><a href="Hoxha/Index.html">Hoxha</a></li>
 </ul>
 </div>
 </div>

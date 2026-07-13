@@ -6,14 +6,14 @@
 <link href="../music-player.css" rel="stylesheet"/>
 <style>
 .collection-index-column details {
-  border: 1px solid rgba(102, 126, 234, 0.35);
-  border-radius: 12px;
-  background: rgba(102, 126, 234, 0.06);
+  border: 1px solid var(--chrome-border);
+  border-radius: 4px;
+  background: var(--chrome-muted);
   overflow: hidden;
 }
 body.dark-theme .collection-index-column details {
-  border-color: rgba(67, 67, 67, 0.7);
-  background: rgba(67, 67, 67, 0.18);
+  border-color: var(--chrome-border);
+  background: var(--chrome-muted);
 }
 .collection-index-column details > summary {
   list-style: none;
@@ -26,7 +26,7 @@ body.dark-theme .collection-index-column details {
 .collection-index-column details > summary::after {
   content: "▾";
   float: right;
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.15s ease;
 }
 .collection-index-column details[open] > summary::after {
   transform: rotate(180deg);
@@ -39,13 +39,10 @@ body.dark-theme .collection-index-column details {
   padding: 0 16px;
   text-align: left;
   white-space: pre-line;
-  transform: translateY(-6px);
-  will-change: max-height, opacity, transform;
-  transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), padding 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: max-height 0.2s ease, opacity 0.15s ease, padding 0.2s ease;
 }
 .collection-index-column details[open] .dropdown-content {
   opacity: 1;
-  transform: translateY(0);
   padding: 0 16px 14px;
 }
 .archive-warning {
@@ -255,7 +252,7 @@ Attacking is a primary factor. A fight was never won by defensive action. Attack
 <script>
 (function () {
   var blocks = document.querySelectorAll('.collection-index-column details');
-  var ANIM_MS = 500;
+  var ANIM_MS = 200;
 
   function closeBlock(details, content) {
     content.style.transition = 'none';
@@ -266,7 +263,6 @@ Attacking is a primary factor. A fight was never won by defensive action. Attack
     requestAnimationFrame(function () {
       content.style.maxHeight = '0px';
       content.style.opacity = '0';
-      content.style.transform = 'translateY(-6px)';
       content.style.paddingTop = '0px';
       content.style.paddingBottom = '0px';
     });
@@ -278,7 +274,6 @@ Attacking is a primary factor. A fight was never won by defensive action. Attack
   function openBlock(content) {
     content.style.maxHeight = '0px';
     content.style.opacity = '1';
-    content.style.transform = 'translateY(0)';
     content.style.paddingTop = '0px';
     content.style.paddingBottom = '14px';
     content.style.maxHeight = content.scrollHeight + 'px';
@@ -298,7 +293,6 @@ Attacking is a primary factor. A fight was never won by defensive action. Attack
       if (details.open) {
         paragraph.style.maxHeight = 'none';
         paragraph.style.opacity = '1';
-        paragraph.style.transform = 'translateY(0)';
       } else {
         paragraph.style.maxHeight = '0px';
       }
