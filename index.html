@@ -9,10 +9,10 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: clamp(6px, 1.2vw, 12px) clamp(8px, 1.6vw, 16px);
+  gap: clamp(8px, 1.4vw, 14px) clamp(10px, 1.8vw, 18px);
   padding: clamp(8px, 1.6vw, 14px) clamp(12px, 2.4vw, 24px);
   margin: 0;
-  max-width: min(600px, 96vw);
+  max-width: min(720px, 96vw);
   background: var(--chrome-muted);
   border: 1px solid var(--chrome-border);
   border-radius: 4px;
@@ -23,30 +23,34 @@ body.dark-theme .featured-banner {
   border-color: var(--chrome-border);
   box-shadow: none;
 }
-.featured-label {
-  font-size: clamp(0.68rem, 1.6vw, 0.8rem);
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-color);
-  opacity: 0.9;
+.featured-banner__logo {
+  display: none;
+  width: auto;
+  height: clamp(28px, 4.5vw, 40px);
+  object-fit: contain;
+  flex-shrink: 0;
 }
-.featured-button {
-  padding: clamp(6px, 1.2vw, 10px) clamp(12px, 2vw, 20px) !important;
-  font-weight: 600 !important;
-  font-size: clamp(0.78rem, 1.8vw, 1rem) !important;
+body:not(.dark-theme) .featured-banner__logo--light,
+body.dark-theme .featured-banner__logo--dark {
+  display: block;
 }
-.featured-byline {
-  font-size: clamp(0.75rem, 1.6vw, 0.9rem);
-  font-style: italic;
+.featured-banner__text {
+  margin: 0;
+  min-width: min(42ch, 58vw);
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  font-weight: 600;
+  line-height: 1.35;
   color: var(--text-color);
-  opacity: 0.85;
+  text-align: center;
 }
 body.homepage {
   overflow: hidden;
 }
 html.m2m-has-top-nav body.homepage {
   padding-top: 0;
+}
+body.homepage.category-open {
+  overflow: hidden;
 }
 .homepage-viewport {
   display: flex;
@@ -148,20 +152,113 @@ html.m2m-has-top-nav body.homepage {
   z-index: 2;
   transform: translate(-50%, -50%) rotate(var(--orbit-angle)) translateY(calc(-1 * var(--orbit-radius))) rotate(calc(-1 * var(--orbit-angle)));
 }
-.homepage-orbit__slot a {
+.homepage-orbit__slot .category-trigger {
   display: inline-block;
   width: max-content;
-  max-width: calc(var(--orbit-size) * 0.237 * var(--orbit-label-scale));
+  max-width: calc(var(--orbit-size) * 0.28 * var(--orbit-label-scale));
   margin: 0 !important;
-  padding: calc(var(--orbit-size) * 0.0094 * var(--orbit-label-scale)) calc(var(--orbit-size) * 0.0188 * var(--orbit-label-scale)) !important;
+  padding: calc(var(--orbit-size) * 0.012 * var(--orbit-label-scale)) calc(var(--orbit-size) * 0.02 * var(--orbit-label-scale)) !important;
+  font: inherit;
   font-size: calc(var(--orbit-size) * 0.022 * var(--orbit-label-scale));
   font-weight: 600;
   line-height: 1.2;
   text-align: center;
   white-space: normal;
+  cursor: pointer;
+  color: var(--btn-fg) !important;
+  background: var(--btn-bg);
+  border: 1px solid var(--chrome-border);
+  border-radius: 4px;
+  box-shadow: none;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+.homepage-orbit__slot .category-trigger:hover,
+.homepage-orbit__slot .category-trigger[aria-expanded="true"] {
+  background: var(--btn-bg-hover);
 }
 .homepage-libraries-list {
   display: none;
+}
+.category-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+.category-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.category-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 50;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(70vh, 520px);
+  overflow: auto;
+  margin: 0;
+  padding: 20px 24px;
+  box-sizing: border-box;
+  background: var(--bg-color);
+  border: 1px solid var(--chrome-border);
+  border-radius: 4px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -46%) scale(0.96);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.category-panel.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.category-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.category-panel__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: bold;
+  text-align: left;
+}
+.category-panel__close {
+  flex: 0 0 auto;
+  margin: 0 !important;
+  padding: 6px 10px !important;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--btn-fg) !important;
+  background: var(--btn-bg);
+  border: 1px solid var(--chrome-border);
+  border-radius: 4px;
+}
+.category-panel__close:hover {
+  background: var(--btn-bg-hover);
+}
+.category-panel ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+.category-panel a {
+  display: block;
+  margin: 8px 0;
+  font-size: 1rem;
+  max-width: none;
+  padding: 8px 16px !important;
+  white-space: normal;
 }
 @media (max-width: 768px) {
   body.homepage {
@@ -247,24 +344,26 @@ html.m2m-has-top-nav body.homepage {
     flex-direction: column;
     align-items: center;
   }
-  .homepage-libraries-list .collections-box {
+  .homepage-libraries-list .category-trigger {
+    display: block;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    padding: 16px 20px;
-  }
-  .homepage-libraries-list .collections-box ul {
-    margin: 0;
-    padding-left: 0;
-    list-style-position: inside;
-  }
-  .homepage-libraries-list .collections-box a {
-    display: block;
-    margin: 8px 0;
+    margin: 8px 0 !important;
+    padding: 12px 16px !important;
+    font: inherit;
     font-size: 1rem;
-    max-width: none;
-    padding: 8px 16px !important;
-    white-space: normal;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    color: var(--btn-fg) !important;
+    background: var(--btn-bg);
+    border: 1px solid var(--chrome-border);
+    border-radius: 4px;
+  }
+  .homepage-libraries-list .category-trigger:hover,
+  .homepage-libraries-list .category-trigger[aria-expanded="true"] {
+    background: var(--btn-bg-hover);
   }
 }
 </style>
@@ -289,10 +388,10 @@ html.m2m-has-top-nav body.homepage {
 </nav>
 <div class="homepage-viewport">
 <header class="homepage-banner">
-<div class="featured-banner">
-<span class="featured-label">New</span>
-<a class="featured-button" href="Cookbook/Index.html">The Communist's Cookbook</a>
-<span class="featured-byline">Do not attempt to create contents.</span>
+<div class="featured-banner" aria-label="Workers of the world, unite!">
+<img class="featured-banner__logo featured-banner__logo--dark" src="darkthemelogo.png" alt="" width="650" height="256"/>
+<img class="featured-banner__logo featured-banner__logo--light" src="lightthemelogo.png" alt="" width="650" height="256"/>
+<p class="featured-banner__text" id="unite-flash" aria-hidden="true">Workers of the world, unite!</p>
 </div>
 </header>
 <main class="homepage-main">
@@ -303,35 +402,24 @@ html.m2m-has-top-nav body.homepage {
 <img alt="" class="main-image" data-dark-src="darkthemelogo.png" data-light-src="lightthemelogo.png" height="391" id="mainImage" src="darkthemelogo.png" width="650"/>
 </div>
 </div>
-<nav class="homepage-orbit__ring" aria-label="Library collections">
-<span class="homepage-orbit__slot" style="--orbit-angle: 0deg"><a href="M&amp;E/Index.html">Marx &amp; Engels</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 40deg"><a href="Lenin/Index.html">Lenin</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 80deg"><a href="Stalin/Index.html">Stalin</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 120deg"><a href="Luxemburg/Index.html">Luxemburg</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 160deg"><a href="Kollontai/Index.html">Kollontai</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 200deg"><a href="HoChiMinh/Index.html">Ho Chi Minh</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 240deg"><a href="Honecker/Index.html">Honecker</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 280deg"><a href="Che/Index.html">Guevara</a></span>
-<span class="homepage-orbit__slot" style="--orbit-angle: 320deg"><a href="Hoxha/Index.html">Hoxha</a></span>
+<nav class="homepage-orbit__ring" aria-label="Library categories">
+<span class="homepage-orbit__slot" style="--orbit-angle: 0deg">
+<button type="button" class="category-trigger" data-category="original" aria-expanded="false" aria-controls="panel-original">Original Marxists</button>
+</span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 120deg">
+<button type="button" class="category-trigger" data-category="marxist-leninists" aria-expanded="false" aria-controls="panel-marxist-leninists">Marxist-Leninists</button>
+</span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 240deg">
+<button type="button" class="category-trigger" data-category="internationalists" aria-expanded="false" aria-controls="panel-internationalists">Internationalists</button>
+</span>
 </nav>
 </div>
-<div class="homepage-libraries-list" aria-label="Library collections">
+<div class="homepage-libraries-list" aria-label="Library categories">
 <div class="collections-title">Libraries</div>
 <div class="collections-wrapper">
-<div class="collections-box">
-<div class="collections-box-label">Theory</div>
-<ul>
-<li><a href="M&amp;E/Index.html">Marx &amp; Engels</a></li>
-<li><a href="Lenin/Index.html">Lenin</a></li>
-<li><a href="Stalin/Index.html">Stalin</a></li>
-<li><a href="Luxemburg/Index.html">Luxemburg</a></li>
-<li><a href="Kollontai/Index.html">Kollontai</a></li>
-<li><a href="HoChiMinh/Index.html">Ho Chi Minh</a></li>
-<li><a href="Honecker/Index.html">Honecker</a></li>
-<li><a href="Che/Index.html">Guevara</a></li>
-<li><a href="Hoxha/Index.html">Hoxha</a></li>
-</ul>
-</div>
+<button type="button" class="category-trigger" data-category="original" aria-expanded="false" aria-controls="panel-original">Original Marxists</button>
+<button type="button" class="category-trigger" data-category="marxist-leninists" aria-expanded="false" aria-controls="panel-marxist-leninists">Marxist-Leninists</button>
+<button type="button" class="category-trigger" data-category="internationalists" aria-expanded="false" aria-controls="panel-internationalists">Internationalists</button>
 </div>
 </div>
 </div>
@@ -343,12 +431,176 @@ html.m2m-has-top-nav body.homepage {
 <p>
 <b>
 <font size="-1">
-Please report all bugs, non-functional links, etc., and direct all comments, suggestions, and criticisms to @eastgermangirl on instagram.<br/>
+Please report all bugs, non-functional links, etc., and direct all comments, suggestions, and criticisms to @incontradiction on instagram.<br/>
 </font>
 </b>
 </p>
 </footer>
 </div>
+
+<div class="category-backdrop" id="category-backdrop" hidden></div>
+
+<div class="category-panel" id="panel-original" role="dialog" aria-modal="true" aria-labelledby="panel-original-title" hidden>
+<div class="category-panel__header">
+<h2 class="category-panel__title" id="panel-original-title">Original Marxists</h2>
+<button type="button" class="category-panel__close" data-close-panel>Close</button>
+</div>
+<ul>
+<li><a href="M&amp;E/Index.html">Marx &amp; Engels</a></li>
+<li><a href="Lenin/Index.html">Lenin</a></li>
+<li><a href="Luxemburg/Index.html">Luxemburg</a></li>
+<li><a href="Kollontai/Index.html">Kollontai</a></li>
+</ul>
+</div>
+
+<div class="category-panel" id="panel-marxist-leninists" role="dialog" aria-modal="true" aria-labelledby="panel-marxist-leninists-title" hidden>
+<div class="category-panel__header">
+<h2 class="category-panel__title" id="panel-marxist-leninists-title">Marxist-Leninists</h2>
+<button type="button" class="category-panel__close" data-close-panel>Close</button>
+</div>
+<ul>
+<li><a href="Stalin/Index.html">Stalin</a></li>
+<li><a href="HoChiMinh/Index.html">Ho Chi Minh</a></li>
+<li><a href="Honecker/Index.html">Honecker</a></li>
+<li><a href="Che/Index.html">Guevara</a></li>
+<li><a href="Hoxha/Index.html">Hoxha</a></li>
+</ul>
+</div>
+
+<div class="category-panel" id="panel-internationalists" role="dialog" aria-modal="true" aria-labelledby="panel-internationalists-title" hidden>
+<div class="category-panel__header">
+<h2 class="category-panel__title" id="panel-internationalists-title">Internationalists</h2>
+<button type="button" class="category-panel__close" data-close-panel>Close</button>
+</div>
+<ul>
+<li><a href="Damen/Index.html">Damen</a></li>
+<li><a href="Bordiga/Index.html">Bordiga</a></li>
+</ul>
+</div>
+
+<script>
+(function () {
+  var el = document.getElementById("unite-flash");
+  if (el) {
+    var phrases = [
+      "Workers of the world, unite!",
+      "Proletarier aller Länder, vereinigt euch!",
+      "Prolétaires de tous les pays, unissez-vous!",
+      "Пролетарии всех стран, соединяйтесь!",
+      "¡Proletarios de todos los países, uníos!",
+      "Proletari di tutti i paesi, unitevi!",
+      "全世界无产者，联合起来！",
+      "万国の労働者よ、団結せよ！",
+      "يا عمال العالم، اتحدوا!",
+      "Trabalhadores do mundo, uni-vos!",
+      "Proletariusze wszystkich krajów, łączcie się!",
+      "Proletariërs aller landen, verenigt u!",
+      "Proletärer i alla länder, förenen eder!",
+      "Προλετάριοι όλων των χωρών, ενωθείτε!",
+      "Bütün ülkelerin işçileri, birleşin!",
+      "만국의 노동자여, 단결하라!",
+      "Vô sản tất cả các nước, đoàn kết lại!",
+      "दुनिया के मजदूरों, एक हो!",
+      "Proletáři všech zemí, spojte se!",
+      "Világ proletárjai, egyesüljetek!",
+      "Proletari din toate țările, uniți-vă!",
+      "Kaikkien maiden proletaarit, liittykää yhteen!",
+      "Proletarer i alle land, foren dere!",
+      "Proletarer i alle lande, forén jer!",
+      "Proletoj el ĉiuj landoj, unuiĝu!",
+      "Пролетарі всіх країн, єднайтеся!",
+      "Пролетарии от всички страни, съединявайте се!",
+      "Proleteri svih zemalja, ujedinite se!",
+      "¡Trabajadores del mundo, uníos!",
+      "Travailleurs du monde, unissez-vous!"
+    ];
+    var i = 0;
+    var preferReduced =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!preferReduced) {
+      window.setInterval(function () {
+        i = (i + 1) % phrases.length;
+        el.textContent = phrases[i];
+      }, 90);
+    }
+  }
+})();
+(function () {
+  var backdrop = document.getElementById("category-backdrop");
+  var panels = Array.prototype.slice.call(document.querySelectorAll(".category-panel"));
+  var triggers = Array.prototype.slice.call(document.querySelectorAll(".category-trigger"));
+  var openPanel = null;
+  var lastTrigger = null;
+
+  function setExpanded(category, expanded) {
+    triggers.forEach(function (btn) {
+      if (btn.getAttribute("data-category") === category) {
+        btn.setAttribute("aria-expanded", expanded ? "true" : "false");
+      }
+    });
+  }
+
+  function closeCategory() {
+    if (!openPanel) return;
+    var id = openPanel.id;
+    var category = id.replace(/^panel-/, "");
+    openPanel.classList.remove("is-open");
+    openPanel.hidden = true;
+    backdrop.classList.remove("is-open");
+    backdrop.hidden = true;
+    document.body.classList.remove("category-open");
+    setExpanded(category, false);
+    openPanel = null;
+    if (lastTrigger) {
+      lastTrigger.focus();
+      lastTrigger = null;
+    }
+  }
+
+  function openCategory(category, trigger) {
+    var panel = document.getElementById("panel-" + category);
+    if (!panel) return;
+    if (openPanel && openPanel !== panel) {
+      openPanel.classList.remove("is-open");
+      openPanel.hidden = true;
+      setExpanded(openPanel.id.replace(/^panel-/, ""), false);
+    }
+    openPanel = panel;
+    lastTrigger = trigger || null;
+    panel.hidden = false;
+    backdrop.hidden = false;
+    document.body.classList.add("category-open");
+    // Force reflow so the open transition runs.
+    void panel.offsetWidth;
+    panel.classList.add("is-open");
+    backdrop.classList.add("is-open");
+    setExpanded(category, true);
+    var closeBtn = panel.querySelector("[data-close-panel]");
+    if (closeBtn) closeBtn.focus();
+  }
+
+  triggers.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var category = btn.getAttribute("data-category");
+      if (!category) return;
+      if (openPanel && openPanel.id === "panel-" + category) {
+        closeCategory();
+        return;
+      }
+      openCategory(category, btn);
+    });
+  });
+
+  document.querySelectorAll("[data-close-panel]").forEach(function (btn) {
+    btn.addEventListener("click", closeCategory);
+  });
+  backdrop.addEventListener("click", closeCategory);
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeCategory();
+  });
+})();
+</script>
 <script src="music-player.js"></script>
 <script src="theme.js">
 </script>

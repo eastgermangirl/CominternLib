@@ -269,7 +269,7 @@ a[href*="fems.lol"]:hover {
 body.dark-theme table, body.dark-theme td {
   color: var(--text-color);
 }
-body.dark-theme img:not(.theme-icon):not(.main-image):not(.m2m-music-player__cover):not(.award-badge):not(.collection-index-photo) {
+body.dark-theme img:not(.theme-icon):not(.main-image):not(.featured-banner__logo):not(.award-badge):not(.collection-index-photo) {
   filter: brightness(0.95);
   transition: filter var(--theme-sync-duration) ease;
 }
