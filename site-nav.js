@@ -310,9 +310,57 @@
         var scripts = bodyEl.querySelectorAll('script[src]');
         for (var i = scripts.length - 1; i >= 0; i--) {
             var src = scripts[i].getAttribute('src') || '';
-            if (/music-player\.js|theme\.js|site-nav\.js/i.test(src)) {
+            if (/music-player\.js|theme\.js|homepage\.js|site-nav\.js/i.test(src)) {
                 scripts[i].parentNode.removeChild(scripts[i]);
             }
+        }
+    }
+
+    function homepageScriptUrl() {
+        var scripts = document.getElementsByTagName('script');
+        for (var i = 0; i < scripts.length; i++) {
+            var src = scripts[i].getAttribute('src');
+            if (!src) {
+                continue;
+            }
+            if (!/(?:theme-early|theme|site-nav|homepage)\.js(?:\?|#|$)/i.test(src)) {
+                continue;
+            }
+            try {
+                return new URL('homepage.js', new URL(src, location.href)).href;
+            } catch (e) {}
+        }
+        var root = getSiteRootPath();
+        return (root || '') + '/homepage.js';
+    }
+
+    function ensureHomepageModule(done) {
+        if (typeof window.M2M_initHomepage === 'function') {
+            done();
+            return;
+        }
+        var existing = document.querySelector('script[src*="homepage.js"]');
+        if (existing) {
+            existing.addEventListener('load', done, { once: true });
+            existing.addEventListener('error', done, { once: true });
+            return;
+        }
+        var script = document.createElement('script');
+        script.src = homepageScriptUrl();
+        script.onload = done;
+        script.onerror = done;
+        document.head.appendChild(script);
+    }
+
+    function runInlinePageScripts() {
+        var scripts = Array.prototype.slice.call(
+            document.body.querySelectorAll('script:not([src])')
+        );
+        for (var i = 0; i < scripts.length; i++) {
+            var oldScript = scripts[i];
+            var neu = document.createElement('script');
+            neu.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(neu, oldScript);
         }
     }
 
@@ -361,9 +409,14 @@
         var canonicalUrl = resolveFetchUrl(pageUrl).href;
         updateDirectoryBase(canonicalUrl);
         rewriteRelativeResourceUrls(document.body, canonicalUrl);
-        if (typeof window.M2M_afterNavigation === 'function') {
-            window.M2M_afterNavigation();
-        }
+        runInlinePageScripts();
+        ensureHomepageModule(function () {
+            if (typeof window.M2M_afterNavigation === 'function') {
+                window.M2M_afterNavigation();
+            } else if (typeof window.M2M_initHomepage === 'function') {
+                window.M2M_initHomepage();
+            }
+        });
         window.scrollTo(0, scrollTop === undefined ? 0 : scrollTop);
     }
 

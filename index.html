@@ -1,5 +1,6 @@
-<html>
+<html lang="en">
 <head><script src="theme-early.js"></script>
+<meta charset="utf-8"/>
 <link href="favicon.ico" rel="icon" type="image/x-icon"/>
 <link href="style.css" rel="stylesheet"/>
 <link href="music-player.css" rel="stylesheet"/>
@@ -483,133 +484,9 @@ Please report all bugs, non-functional links, etc., and direct all comments, sug
 </ul>
 </div>
 
-<script>
-(function () {
-  var el = document.getElementById("unite-flash");
-  if (el) {
-    var phrases = [
-      "Workers of the world, unite!",
-      "Proletarier aller Länder, vereinigt euch!",
-      "Prolétaires de tous les pays, unissez-vous!",
-      "Пролетарии всех стран, соединяйтесь!",
-      "¡Proletarios de todos los países, uníos!",
-      "Proletari di tutti i paesi, unitevi!",
-      "全世界无产者，联合起来！",
-      "万国の労働者よ、団結せよ！",
-      "يا عمال العالم، اتحدوا!",
-      "Trabalhadores do mundo, uni-vos!",
-      "Proletariusze wszystkich krajów, łączcie się!",
-      "Proletariërs aller landen, verenigt u!",
-      "Proletärer i alla länder, förenen eder!",
-      "Προλετάριοι όλων των χωρών, ενωθείτε!",
-      "Bütün ülkelerin işçileri, birleşin!",
-      "만국의 노동자여, 단결하라!",
-      "Vô sản tất cả các nước, đoàn kết lại!",
-      "दुनिया के मजदूरों, एक हो!",
-      "Proletáři všech zemí, spojte se!",
-      "Világ proletárjai, egyesüljetek!",
-      "Proletari din toate țările, uniți-vă!",
-      "Kaikkien maiden proletaarit, liittykää yhteen!",
-      "Proletarer i alle land, foren dere!",
-      "Proletarer i alle lande, forén jer!",
-      "Proletoj el ĉiuj landoj, unuiĝu!",
-      "Пролетарі всіх країн, єднайтеся!",
-      "Пролетарии от всички страни, съединявайте се!",
-      "Proleteri svih zemalja, ujedinite se!",
-      "¡Trabajadores del mundo, uníos!",
-      "Travailleurs du monde, unissez-vous!"
-    ];
-    var i = 0;
-    var preferReduced =
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!preferReduced) {
-      window.setInterval(function () {
-        i = (i + 1) % phrases.length;
-        el.textContent = phrases[i];
-      }, 90);
-    }
-  }
-})();
-(function () {
-  var backdrop = document.getElementById("category-backdrop");
-  var panels = Array.prototype.slice.call(document.querySelectorAll(".category-panel"));
-  var triggers = Array.prototype.slice.call(document.querySelectorAll(".category-trigger"));
-  var openPanel = null;
-  var lastTrigger = null;
-
-  function setExpanded(category, expanded) {
-    triggers.forEach(function (btn) {
-      if (btn.getAttribute("data-category") === category) {
-        btn.setAttribute("aria-expanded", expanded ? "true" : "false");
-      }
-    });
-  }
-
-  function closeCategory() {
-    if (!openPanel) return;
-    var id = openPanel.id;
-    var category = id.replace(/^panel-/, "");
-    openPanel.classList.remove("is-open");
-    openPanel.hidden = true;
-    backdrop.classList.remove("is-open");
-    backdrop.hidden = true;
-    document.body.classList.remove("category-open");
-    setExpanded(category, false);
-    openPanel = null;
-    if (lastTrigger) {
-      lastTrigger.focus();
-      lastTrigger = null;
-    }
-  }
-
-  function openCategory(category, trigger) {
-    var panel = document.getElementById("panel-" + category);
-    if (!panel) return;
-    if (openPanel && openPanel !== panel) {
-      openPanel.classList.remove("is-open");
-      openPanel.hidden = true;
-      setExpanded(openPanel.id.replace(/^panel-/, ""), false);
-    }
-    openPanel = panel;
-    lastTrigger = trigger || null;
-    panel.hidden = false;
-    backdrop.hidden = false;
-    document.body.classList.add("category-open");
-    // Force reflow so the open transition runs.
-    void panel.offsetWidth;
-    panel.classList.add("is-open");
-    backdrop.classList.add("is-open");
-    setExpanded(category, true);
-    var closeBtn = panel.querySelector("[data-close-panel]");
-    if (closeBtn) closeBtn.focus();
-  }
-
-  triggers.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var category = btn.getAttribute("data-category");
-      if (!category) return;
-      if (openPanel && openPanel.id === "panel-" + category) {
-        closeCategory();
-        return;
-      }
-      openCategory(category, btn);
-    });
-  });
-
-  document.querySelectorAll("[data-close-panel]").forEach(function (btn) {
-    btn.addEventListener("click", closeCategory);
-  });
-  backdrop.addEventListener("click", closeCategory);
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") closeCategory();
-  });
-})();
-</script>
 <script src="music-player.js"></script>
-<script src="theme.js">
-</script>
-<script src="site-nav.js">
-</script>
+<script src="theme.js"></script>
+<script src="homepage.js"></script>
+<script src="site-nav.js"></script>
 </body>
 </html>
