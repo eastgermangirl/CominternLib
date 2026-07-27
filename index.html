@@ -7,13 +7,16 @@
 <style>
 .featured-banner {
   display: inline-flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
   gap: clamp(8px, 1.4vw, 14px) clamp(10px, 1.8vw, 18px);
   padding: clamp(8px, 1.6vw, 14px) clamp(12px, 2.4vw, 24px);
   margin: 0;
   max-width: min(720px, 96vw);
+  width: min(720px, 96vw);
+  box-sizing: border-box;
+  overflow: hidden;
   background: var(--chrome-muted);
   border: 1px solid var(--chrome-border);
   border-radius: 4px;
@@ -37,12 +40,17 @@ body.dark-theme .featured-banner__logo--dark {
 }
 .featured-banner__text {
   margin: 0;
-  min-width: min(42ch, 58vw);
-  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  min-width: 0;
+  flex: 1 1 auto;
+  font-size: clamp(0.75rem, 2vw, 1.05rem);
   font-weight: 600;
   line-height: 1.35;
+  height: 1.35em;
   color: var(--text-color);
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 body.homepage {
   overflow: hidden;
