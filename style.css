@@ -460,6 +460,11 @@ img {
   max-width: 100% !important;
   height: auto !important;
 }
+img.featured-banner__logo {
+  width: auto !important;
+  max-width: none !important;
+  height: clamp(28px, 4.5vw, 40px) !important;
+}
 img.collection-index-photo {
   width: auto !important;
   max-width: 100% !important;

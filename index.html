@@ -107,12 +107,12 @@ body.homepage.category-open {
 }
 .homepage-orbit {
   --orbit-design: 832;
-  --orbit-label-scale: 1.28;
+  --orbit-label-scale: 1.08;
   --orbit-fit: min(96vw, calc(100svh - var(--m2m-top-nav-pad, 52px) - clamp(72px, 10vh, 96px) - 11rem));
   --orbit-size: var(--orbit-fit);
   --orbit-logo-width: calc(var(--orbit-size) * 650 / var(--orbit-design));
   --orbit-logo-height: calc(var(--orbit-logo-width) * 256 / 425);
-  --orbit-radius: calc(var(--orbit-size) * 302 / var(--orbit-design));
+  --orbit-radius: calc(var(--orbit-size) * 318 / var(--orbit-design));
   position: relative;
   width: var(--orbit-size);
   height: var(--orbit-size);
@@ -156,13 +156,13 @@ body.homepage.category-open {
 .homepage-orbit__slot .category-trigger {
   display: inline-block;
   width: max-content;
-  max-width: calc(var(--orbit-size) * 0.28 * var(--orbit-label-scale));
+  max-width: calc(var(--orbit-size) * 0.22 * var(--orbit-label-scale));
   margin: 0 !important;
-  padding: calc(var(--orbit-size) * 0.012 * var(--orbit-label-scale)) calc(var(--orbit-size) * 0.02 * var(--orbit-label-scale)) !important;
+  padding: calc(var(--orbit-size) * 0.01 * var(--orbit-label-scale)) calc(var(--orbit-size) * 0.016 * var(--orbit-label-scale)) !important;
   font: inherit;
-  font-size: calc(var(--orbit-size) * 0.022 * var(--orbit-label-scale));
+  font-size: calc(var(--orbit-size) * 0.018 * var(--orbit-label-scale));
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.15;
   text-align: center;
   white-space: normal;
   cursor: pointer;
@@ -407,11 +407,20 @@ body.homepage.category-open {
 <span class="homepage-orbit__slot" style="--orbit-angle: 0deg">
 <button type="button" class="category-trigger" data-category="original" aria-expanded="false" aria-controls="panel-original">Original Marxists</button>
 </span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 60deg">
+<button type="button" class="category-trigger" data-category="bolsheviks" aria-expanded="false" aria-controls="panel-bolsheviks">Bolsheviks</button>
+</span>
 <span class="homepage-orbit__slot" style="--orbit-angle: 120deg">
-<button type="button" class="category-trigger" data-category="marxist-leninists" aria-expanded="false" aria-controls="panel-marxist-leninists">Marxist-Leninists</button>
+<button type="button" class="category-trigger" data-category="national-liberation" aria-expanded="false" aria-controls="panel-national-liberation">National Liberation</button>
+</span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 180deg">
+<button type="button" class="category-trigger" data-category="state-builders" aria-expanded="false" aria-controls="panel-state-builders">State Builders</button>
 </span>
 <span class="homepage-orbit__slot" style="--orbit-angle: 240deg">
-<button type="button" class="category-trigger" data-category="internationalists" aria-expanded="false" aria-controls="panel-internationalists">Internationalists</button>
+<button type="button" class="category-trigger" data-category="italian-left" aria-expanded="false" aria-controls="panel-italian-left">Italian Left</button>
+</span>
+<span class="homepage-orbit__slot" style="--orbit-angle: 300deg">
+<button type="button" class="category-trigger" data-category="dutch-german-left" aria-expanded="false" aria-controls="panel-dutch-german-left">Dutch-German Left</button>
 </span>
 </nav>
 </div>
@@ -419,8 +428,11 @@ body.homepage.category-open {
 <div class="collections-title">Libraries</div>
 <div class="collections-wrapper">
 <button type="button" class="category-trigger" data-category="original" aria-expanded="false" aria-controls="panel-original">Original Marxists</button>
-<button type="button" class="category-trigger" data-category="marxist-leninists" aria-expanded="false" aria-controls="panel-marxist-leninists">Marxist-Leninists</button>
-<button type="button" class="category-trigger" data-category="internationalists" aria-expanded="false" aria-controls="panel-internationalists">Internationalists</button>
+<button type="button" class="category-trigger" data-category="bolsheviks" aria-expanded="false" aria-controls="panel-bolsheviks">Bolsheviks</button>
+<button type="button" class="category-trigger" data-category="national-liberation" aria-expanded="false" aria-controls="panel-national-liberation">National Liberation</button>
+<button type="button" class="category-trigger" data-category="state-builders" aria-expanded="false" aria-controls="panel-state-builders">State Builders</button>
+<button type="button" class="category-trigger" data-category="italian-left" aria-expanded="false" aria-controls="panel-italian-left">Italian Left</button>
+<button type="button" class="category-trigger" data-category="dutch-german-left" aria-expanded="false" aria-controls="panel-dutch-german-left">Dutch-German Left</button>
 </div>
 </div>
 </div>
@@ -448,39 +460,67 @@ Please report all bugs, non-functional links, etc., and direct all comments, sug
 </div>
 <ul>
 <li><a href="M&amp;E/Index.html">Marx &amp; Engels</a></li>
-<li><a href="Lenin/Index.html">Lenin</a></li>
 <li><a href="Luxemburg/Index.html">Luxemburg</a></li>
 <li><a href="Kollontai/Index.html">Kollontai</a></li>
 <li><a href="Zetkin/Index.html">Zetkin</a></li>
 </ul>
 </div>
 
-<div class="category-panel" id="panel-marxist-leninists" role="dialog" aria-modal="true" aria-labelledby="panel-marxist-leninists-title" hidden>
+<div class="category-panel" id="panel-bolsheviks" role="dialog" aria-modal="true" aria-labelledby="panel-bolsheviks-title" hidden>
 <div class="category-panel__header">
-<h2 class="category-panel__title" id="panel-marxist-leninists-title">Marxist-Leninists</h2>
+<h2 class="category-panel__title" id="panel-bolsheviks-title">Bolsheviks</h2>
+<button type="button" class="category-panel__close" data-close-panel>Close</button>
+</div>
+<ul>
+<li><a href="Lenin/Index.html">Lenin</a></li>
+<li><a href="Bukharin/Index.html">Bukharin</a></li>
+<li><a href="Trotsky/Index.html">Trotsky</a></li>
+</ul>
+</div>
+
+<div class="category-panel" id="panel-national-liberation" role="dialog" aria-modal="true" aria-labelledby="panel-national-liberation-title" hidden>
+<div class="category-panel__header">
+<h2 class="category-panel__title" id="panel-national-liberation-title">National Liberation</h2>
+<button type="button" class="category-panel__close" data-close-panel>Close</button>
+</div>
+<ul>
+<li><a href="HoChiMinh/Index.html">Ho Chi Minh</a></li>
+<li><a href="Che/Index.html">Guevara</a></li>
+</ul>
+</div>
+
+<div class="category-panel" id="panel-state-builders" role="dialog" aria-modal="true" aria-labelledby="panel-state-builders-title" hidden>
+<div class="category-panel__header">
+<h2 class="category-panel__title" id="panel-state-builders-title">State Builders</h2>
 <button type="button" class="category-panel__close" data-close-panel>Close</button>
 </div>
 <ul>
 <li><a href="Stalin/Index.html">Stalin</a></li>
-<li><a href="Bukharin/Index.html">Bukharin</a></li>
-<li><a href="Trotsky/Index.html">Trotsky</a></li>
-<li><a href="HoChiMinh/Index.html">Ho Chi Minh</a></li>
 <li><a href="Honecker/Index.html">Honecker</a></li>
-<li><a href="Che/Index.html">Guevara</a></li>
 <li><a href="Hoxha/Index.html">Hoxha</a></li>
 </ul>
 </div>
 
-<div class="category-panel" id="panel-internationalists" role="dialog" aria-modal="true" aria-labelledby="panel-internationalists-title" hidden>
+<div class="category-panel" id="panel-italian-left" role="dialog" aria-modal="true" aria-labelledby="panel-italian-left-title" hidden>
 <div class="category-panel__header">
-<h2 class="category-panel__title" id="panel-internationalists-title">Internationalists</h2>
+<h2 class="category-panel__title" id="panel-italian-left-title">Italian Left</h2>
 <button type="button" class="category-panel__close" data-close-panel>Close</button>
 </div>
 <ul>
-<li><a href="Damen/Index.html">Damen</a></li>
 <li><a href="Bordiga/Index.html">Bordiga</a></li>
+<li><a href="Damen/Index.html">Damen</a></li>
 <li><a href="Gramsci/Index.html">Gramsci</a></li>
+</ul>
+</div>
+
+<div class="category-panel" id="panel-dutch-german-left" role="dialog" aria-modal="true" aria-labelledby="panel-dutch-german-left-title" hidden>
+<div class="category-panel__header">
+<h2 class="category-panel__title" id="panel-dutch-german-left-title">Dutch-German Left</h2>
+<button type="button" class="category-panel__close" data-close-panel>Close</button>
+</div>
+<ul>
 <li><a href="Pannekoek/Index.html">Pannekoek</a></li>
+<li><a href="Mattick/Index.html">Mattick</a></li>
 </ul>
 </div>
 
